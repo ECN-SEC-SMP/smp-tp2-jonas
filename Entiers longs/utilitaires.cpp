@@ -27,10 +27,20 @@ t_EntierLong convertToLong(int n){
     return nlong;
 };
 
-
-bool Test(t_EntierLong a , t_EntierLong b) {
+bool EqualTest(t_EntierLong a , t_EntierLong b) {
     bool iseq = false; // Initialisation de la variable de vérification d'égalité
-    if (a.negatif == b.negatif) {  // On vérifie d'abord si c'est négatif ou non
+    for (int i = 0; i< MAXCHIFFRES; i++){ // On vérifie ensuite les égalités termes a termes
+        if (a.chiffres[i]==b.chiffres[i]) {
+            iseq = true; // a et b sont bien egaux 
+        }
+    }
+    return iseq; // Réponse du code
+}
+
+bool FullTest(t_EntierLong a , t_EntierLong b) {
+    bool iseq = false; // Initialisation de la variable de vérification d'égalité
+    if (a.negatif == b.negatif) {
+        bool SameSign = true;  // On vérifie d'abord si ils ont le même signe
         for (int i = 0; i< MAXCHIFFRES; i++){ // On vérifie ensuite les égalités termes a termes
             if (a.chiffres[i]==b.chiffres[i]) {
                 iseq = true; // a et b sont bien egaux 
