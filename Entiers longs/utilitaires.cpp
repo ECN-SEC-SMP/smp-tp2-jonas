@@ -5,7 +5,7 @@
 #include "stdio.h"
 using namespace std;
 
-
+/*Fonction convertToLong : convertit un entier standard en entier long*/
 t_EntierLong convertToLong(int n){
     t_EntierLong nlong;
     int temp;
@@ -26,7 +26,7 @@ t_EntierLong convertToLong(int n){
 
     return nlong;
 };
-
+/*Fonction EqualTest : vérifie si |n1|=|n2| */
 bool EqualTest(t_EntierLong a , t_EntierLong b) {
     bool iseq = false; // Initialisation de la variable de vérification d'égalité
     for (int i = 0; i< MAXCHIFFRES; i++){ // On vérifie ensuite les égalités termes a termes
@@ -34,29 +34,28 @@ bool EqualTest(t_EntierLong a , t_EntierLong b) {
             iseq = true; // a et b sont bien egaux 
         }
     }
-    return iseq; // Réponse du code
+    return iseq; // Réponse de l'affirmation : |n1|=|n2|
 }
-
+/*Fonction FullTest : vérifie si |n1|=|n2| et que n1 et n2 soient de même signe */
 bool FullTest(t_EntierLong a , t_EntierLong b) {
     bool iseq = false; // Initialisation de la variable de vérification d'égalité
-    if (a.negatif == b.negatif) {
-        bool SameSign = true;  // On vérifie d'abord si ils ont le même signe
+    if (a.negatif == b.negatif) {// On vérifie d'abord si ils ont le même signe
         for (int i = 0; i< MAXCHIFFRES; i++){ // On vérifie ensuite les égalités termes a termes
             if (a.chiffres[i]==b.chiffres[i]) {
                 iseq = true; // a et b sont bien egaux 
             }
         }
     }
-    return iseq; // Réponse du code
+    return iseq; // Réponse de l'affirmation : |n1|=|n2| et sign(n1)=sign(n2)
 }
-
+/*Fonction compvalabs : compare en valeur absolue deux entiers longs n1 et n2 : |n1| <= |n2|*/
 bool compvalabs(t_EntierLong n1, t_EntierLong n2){ 
     bool comp = false; // Reponse finale de la comparaison |n1| < |n2|
     int n10 = 0; // Nombre de zero de droite a gauche pour n1
     int n20 = 0; // Nombre de zero de droite a gauche pour n2
     bool iseq = false; // Initialisation de la variable d'égalité
 
-    for (int i = 0; i < MAXCHIFFRES; i++){          // Comptage des zeros
+    for (int i = 0; i < MAXCHIFFRES; i++){ // Comptage des zeros
         if (n1.chiffres[MAXCHIFFRES-i] == 0){
             n10++;
         }
@@ -66,8 +65,7 @@ bool compvalabs(t_EntierLong n1, t_EntierLong n2){
     }
 
     if (n10 == n20){ // On etudie le cas ou il y a le même nombre de zero
-        // On etudie le sous cas où |n1|=|n2|
-        for (int i = 0; i<MAXCHIFFRES; i++){
+        for (int i = 0; i<MAXCHIFFRES; i++){  // On etudie le sous cas où |n1|=|n2|
             while (n1.chiffres[i] == n2.chiffres[i]){
                 iseq = true;
             }

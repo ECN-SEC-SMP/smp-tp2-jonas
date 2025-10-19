@@ -3,7 +3,7 @@
 #include "utilitaires.h"
 using namespace std;
 
-/*Fonciton usum : addition n1+n2 de deux entiers longs de même signe*/
+/*Fonction usum : addition n1+n2 de deux entiers longs de même signe*/
 t_EntierLong usum(t_EntierLong n1, t_EntierLong n2){
     t_EntierLong n3; // Initialisation du resultat n1+n2 = n3
     for (int i = 0; i<MAXCHIFFRES; i++){ // On somme termes a termes les chiffres
@@ -18,7 +18,7 @@ t_EntierLong usum(t_EntierLong n1, t_EntierLong n2){
     return n3;
 }
 
-/*Fonciton usub : soustraction n1-n2 de deux entiers longs n1 et n2 de même signe et tels que |n1| >= |n2|*/
+/*Fonction usub : soustraction n1-n2 de deux entiers longs n1 et n2 de même signe et tels que |n1| >= |n2|*/
 t_EntierLong usub(t_EntierLong n1, t_EntierLong n2){
     t_EntierLong n3; // Initialisation du resultat de n1-n2=n3
     if (EqualTest(n1,n2)){ // Verification de la proposition : |n1|=|n2| en appelant la fonction Test dans utilitaires.cpp
@@ -50,25 +50,22 @@ t_EntierLong usub(t_EntierLong n1, t_EntierLong n2){
 t_EntierLong sum(t_EntierLong n1, t_EntierLong n2){
     t_EntierLong n3;
     if (n1.negatif && n2.negatif){ // Cas ou n1 et n2 sont négatifs
-        n3 = usum(n1,n2);
+        n3 = usum(n1,n2); // 
         n3.negatif = true;
-        return n3;
     }
     if (not(n1.negatif) && not(n2.negatif)){ // Cas ou n1 et n2 sont positifs
-        n3 = usum(n1,n2);
-        n3.negatif = false;
-        return n3;
+        n3 = usum(n1,n2);// Somme n1 et n2
+        n3.negatif = false; // n3 est positif car n1>0 et n2>0
     }
     if (n1.negatif && not(n2.negatif)){ // Cas ou n1 est négatif et n2 positif
         if (compvalabs(n1,n2)){ // Verifie si |n1| <= |n2|
             n3=usum(n1,n2); // Somme n1 et n2
-            n3.negatif = false; // n3 est positif car |n1| <= |n2|, n1 < 0 et n2 > 0
+            n3.negatif = false; // n3 est positif car |n1|<=|n2|, n1<0 et n2>0
         }
         else{
             n3=usum(n1,n2); // Somme n1 et n2
-            n3.negatif = true;// n3 est negatif car |n1| > |n2|, n1 < 0 et n2 > 0
+            n3.negatif = true;// n3 est negatif car |n1|>|n2|, n1<0 et n2>0
         }
-        return n3;
     }
      if (not(n1.negatif) && n2.negatif){ // Cas ou n1 est positif et n2 négatif
         if (compvalabs(n1,n2)){// Verifie si |n1| <= |n2|
@@ -79,46 +76,48 @@ t_EntierLong sum(t_EntierLong n1, t_EntierLong n2){
             n3=usum(n2,n1);
             n3.negatif = false; // n3 est positif car |n1| > |n2|, n1 > 0 et n2 < 0
         }
-        return n3;
     }
+    return n3;// Renvoie le resultat final
 }
 
 /*Fonction sub : Soustraction de deux entiers longs de signes quelconques*/
 t_EntierLong sub(t_EntierLong n1, t_EntierLong n2){
-    t_EntierLong n3;
-    if (EqualTest(n1,n2)){
-        if ((n1.negatif != n2.negatif)){
+    t_EntierLong n3; //Inititalisation du resultat
+    if (EqualTest(n1,n2)){ // Cas ou |n1|=|n2|
+        if ((n1.negatif != n2.negatif)){ // Et n1 et n2 sont de signes différents 
             for (int i=0; i<MAXCHIFFRES; i++){
-                n3.chiffres[MAXCHIFFRES-i] = 0;
+                n3.chiffres[MAXCHIFFRES-i] = 0; // Le resultat est nul
             }
+        return n3;
         }
     }
     if (n1.negatif && n2.negatif){ // Cas ou n1 et n2 sont négatifs
-        if (compvalabs(n1,n2)){
-            n3 = usub(n2,n1);
-            n3.negatif = false;
+        if (compvalabs(n1,n2)){ // Verifie si |n1|<=|n2|
+            n3 = usub(n2,n1); // n1-n2 revient dans ce cas a faire |n2|-|n1| car n1<0 et n2<0
+            n3.negatif = false; // n2-n1>0 car |n1|<=|n2|
         }
         else{
-            n3 = usub(n2,n1);
-            n3.negatif = true;
+            n3 = usub(n2,n1); // n1-n2 revient dans ce cas a faire |n2|-|n1| car n1<0 et n2<0
+            n3.negatif = true; // n2-n1<0 car |n1|>|n2|
         } 
     }
     if (not(n1.negatif) && not(n2.negatif)){ // Cas ou n1 et n2 sont positifs
-        if (compvalabs(n1,n2)){
-            n3 = usub(n1,n2);
-            n3.negatif = true;
+        if (compvalabs(n1,n2)){// Verifie si |n1|<=|n2|
+            n3 = usub(n1,n2);// n1-n2 revient dans ce cas a faire |n1|-|n2| car n1>0 et n2>0
+            n3.negatif = true;// n1-n2<0 car |n1|<=|n2|
         }
         else{
-            n3 = usub(n1,n2);
-            n3.negatif = false;
+            n3 = usub(n1,n2);// n1-n2 revient dans ce cas a faire |n1|-|n2| car n1>0 et n2>0
+            n3.negatif = false;// n1-n2>0 car |n1|>|n2|
         }
     }
-    if (n1.negatif && not(n2.negatif)) { // Cas ou n1 <0 et n2>0
-        n3 = usum(n1,n2);
-        n3.negatif = true;
+    if (n1.negatif && not(n2.negatif)) { // Cas ou n1<0 et n2>0
+        n3 = usum(n1,n2);// n1-n2 revient dans ce cas a faire -(|n1|+|n2|) car n1<0 et n2>0
+        n3.negatif = true;// -(|n1|+|n2|) < 0
     }
     if (not(n1.negatif) && n2.negatif){ // Cas ou n1>0 et n2<0
-        n3 = usum(n1,n2);
-        n3.negatif = false;
+        n3 = usum(n1,n2);// n1-n2 revient dans ce cas a faire |n1|+|n2| car n1>0 et n2>0
+        n3.negatif = false;// |n1|+|n2| > 0
     }
+    return n3;// Renvoie le resultat final
 }
