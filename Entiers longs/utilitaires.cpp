@@ -28,10 +28,10 @@ t_EntierLong convertToLong(int n){
 };
 /*Fonction EqualTest : vérifie si |n1|=|n2| */
 bool EqualTest(t_EntierLong a , t_EntierLong b) {
-    bool iseq = false; // Initialisation de la variable de vérification d'égalité
+    bool iseq = true; // Initialisation de la variable de vérification d'égalité
     for (int i = 0; i< MAXCHIFFRES; i++){ // On vérifie ensuite les égalités termes a termes
-        if (a.chiffres[i]==b.chiffres[i]) {
-            iseq = true; // a et b sont bien egaux 
+        if (a.chiffres[i] != b.chiffres[i]) {
+            iseq = false; // a et b sont differents
         }
     }
     return iseq; // Réponse de l'affirmation : |n1|=|n2|
@@ -39,10 +39,11 @@ bool EqualTest(t_EntierLong a , t_EntierLong b) {
 /*Fonction FullTest : vérifie si |n1|=|n2| et que n1 et n2 soient de même signe */
 bool FullTest(t_EntierLong a , t_EntierLong b) {
     bool iseq = false; // Initialisation de la variable de vérification d'égalité
-    if (a.negatif == b.negatif) {// On vérifie d'abord si ils ont le même signe
+    if (a.negatif == b.negatif) { // On vérifie d'abord si ils ont le même signe
+        iseq = true;
         for (int i = 0; i< MAXCHIFFRES; i++){ // On vérifie ensuite les égalités termes a termes
-            if (a.chiffres[i]==b.chiffres[i]) {
-                iseq = true; // a et b sont bien egaux 
+            if (a.chiffres[i] != b.chiffres[i]) {
+                iseq = false; // a et b sont differents 
             }
         }
     }
@@ -56,30 +57,30 @@ bool compvalabs(t_EntierLong n1, t_EntierLong n2){
     bool iseq = false; // Initialisation de la variable d'égalité
 
     for (int i = 0; i < MAXCHIFFRES; i++){ // Comptage des zeros
-        if (n1.chiffres[MAXCHIFFRES-i] == 0){
+        if (n1.chiffres[i] == 0){
             n10++;
         }
-        if (n2.chiffres[MAXCHIFFRES-i]==0){
+        if (n2.chiffres[i] == 0){
             n20++;
         }
     }
 
     if (n10 == n20){ // On etudie le cas ou il y a le même nombre de zero
         for (int i = 0; i<MAXCHIFFRES; i++){  // On etudie le sous cas où |n1|=|n2|
-            while (n1.chiffres[i] == n2.chiffres[i]){
+            if (n1.chiffres[i] == n2.chiffres[i]){
                 iseq = true;
             }
         }
         if (iseq == false){
             for (int i = 0; i<MAXCHIFFRES; i++){
             // On regarde ensuite si n1 < n2 terme a terme
-            if (n1.chiffres[MAXCHIFFRES-i] < n2.chiffres[MAXCHIFFRES-i]){
+            if (n1.chiffres[i] <= n2.chiffres[i]){
                 comp = true;
             }
             else {
                 comp = false;
             }  
-            }
+        }
             return comp;
         }
         else {
@@ -88,10 +89,10 @@ bool compvalabs(t_EntierLong n1, t_EntierLong n2){
     } // On regarde les cas plus simple 
     else    {
             if (n10 < n20){
-                return true;
+                return false;
             }
             if (n10 > n20){
-                return false;
+                return true;
             }
     }
     return 0;
