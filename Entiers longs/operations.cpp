@@ -27,11 +27,8 @@ t_EntierLong usub(t_EntierLong n1, t_EntierLong n2){
         n3.chiffres[i]=0; // Initialisation du resultat n1-n2 = n3
     }
     if (EqualTest(n1,n2)){ // Verification de la proposition : |n1|=|n2| en appelant la fonction Test dans utilitaires.cpp
-        for (int i=0; i<MAXCHIFFRES; i++){ 
-            n3.chiffres[i-1]=0; // Le resultat est nul
-        }
-        n3.negatif = false;
-        return n3;
+        // Le résultat est 0. n3 est déjà initialisé à 0, on peut le retourner directement
+        return n3; 
     }
     if (not(compvalabs(n1,n2))){ // Verification de la proposition : |n1| > |n2| (l'inverse du retour de la fonction compvalabs)
         for (int i = 0; i < MAXCHIFFRES; i++){ 
