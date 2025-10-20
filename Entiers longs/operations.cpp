@@ -11,11 +11,9 @@ t_EntierLong usum(t_EntierLong n1, t_EntierLong n2){
     for (int i = 0; i<MAXCHIFFRES; i++){
         n3.chiffres[i]=0; // Initialisation du resultat n1+n2 = n3
     }
-
-
     for (int i = 0; i<MAXCHIFFRES; i++){ // On somme termes a termes les chiffres
-        n3.chiffres[i] = (n1.chiffres[i] + n2.chiffres[i] + retenue) % 10;
-        retenue = (n1.chiffres[i] + n2.chiffres[i] + retenue) / 10;
+        n3.chiffres[i] = (n1.chiffres[i] + n2.chiffres[i] + retenue) % 10; // Ajout du nouveau chiffre dans la i eme colonne
+        retenue = (n1.chiffres[i] + n2.chiffres[i] + retenue) / 10; // Affectation de la nouvelle retenue
     }
     return n3;
 }
@@ -24,13 +22,13 @@ t_EntierLong usum(t_EntierLong n1, t_EntierLong n2){
 t_EntierLong usub(t_EntierLong n1, t_EntierLong n2){
     t_EntierLong n3;// Initialisation du resultat de n1-n2=n3
     n3.negatif = false;
-    int retenue= 0 ;
+    int retenue= 0 ; // Initialisation de la retenue
     for (int i = 0; i<MAXCHIFFRES; i++){
         n3.chiffres[i]=0; // Initialisation du resultat n1-n2 = n3
     }
     if (EqualTest(n1,n2)){ // Verification de la proposition : |n1|=|n2| en appelant la fonction Test dans utilitaires.cpp
         for (int i=0; i<MAXCHIFFRES; i++){ 
-            n3.chiffres[i]=0; // Le resultat est nul
+            n3.chiffres[i-1]=0; // Le resultat est nul
         }
         n3.negatif = false;
         return n3;
@@ -84,7 +82,7 @@ t_EntierLong sum(t_EntierLong n1, t_EntierLong n2){
         }
         if (not(n1.negatif) && n2.negatif){ // Cas ou n1 est positif et n2 négatif
             if (compvalabs(n1,n2)){// Verifie si |n1| <= |n2|
-                n3=usum(n1,n2);
+                n3=usub(n2,n1);
                 n3.negatif = true; // n3 est negatif car |n1| <= |n2|, n1 > 0 et n2 < 0
             }
             else{
@@ -98,8 +96,11 @@ t_EntierLong sum(t_EntierLong n1, t_EntierLong n2){
 
 /*Fonction sub : Soustraction de deux entiers longs de signes quelconques*/
 t_EntierLong sub(t_EntierLong n1, t_EntierLong n2){
-    t_EntierLong n3; //Inititalisation du resultat
-    if (EqualTest(n1,n2)){ // Cas ou |n1|=|n2|
+    t_EntierLong n3;//Inititalisation du resultat
+    for (int i = 0; i<MAXCHIFFRES; i++){
+        n3.chiffres[i]=0; // Initialisation du resultat n1-n2 = n3
+    } 
+    if (FullTest(n1,n2)){ // Cas ou |n1|=|n2|
         if ((n1.negatif != n2.negatif)){ // Et n1 et n2 sont de signes différents 
             for (int i=0; i<MAXCHIFFRES; i++){
                 n3.chiffres[i] = 0; // Le resultat est nul
@@ -114,7 +115,7 @@ t_EntierLong sub(t_EntierLong n1, t_EntierLong n2){
                 n3.negatif = false; // n2-n1>0 car |n1|<=|n2|
             }
             else{
-                n3 = usub(n2,n1); // n1-n2 revient dans ce cas a faire |n2|-|n1| car n1<0 et n2<0
+                n3 = usub(n1,n2); // n1-n2 revient dans ce cas a faire |n2|-|n1| car n1<0 et n2<0
                 n3.negatif = true; // n2-n1<0 car |n1|>|n2|
             }
         }

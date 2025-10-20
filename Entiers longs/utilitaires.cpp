@@ -10,7 +10,7 @@ t_EntierLong convertToLong(int n){
     t_EntierLong nlong;
     int temp;
     
-    // Vérification d'abord si l'entiers est negatif ou non
+    // Vérification d'abord si l'entier est negatif ou non
     if (n<0){          
         nlong.negatif = true; // negatif est vrai car l'entier est negatif 
     }
@@ -26,6 +26,7 @@ t_EntierLong convertToLong(int n){
 
     return nlong;
 };
+
 /*Fonction EqualTest : vérifie si |n1|=|n2| */
 bool EqualTest(t_EntierLong a , t_EntierLong b) {
     bool iseq = true; // Initialisation de la variable de vérification d'égalité
@@ -50,50 +51,18 @@ bool FullTest(t_EntierLong a , t_EntierLong b) {
     return iseq; // Réponse de l'affirmation : |n1|=|n2| et sign(n1)=sign(n2)
 }
 /*Fonction compvalabs : compare en valeur absolue deux entiers longs n1 et n2 : |n1| <= |n2|*/
-bool compvalabs(t_EntierLong n1, t_EntierLong n2){ 
-    bool comp = false; // Reponse finale de la comparaison |n1| < |n2|
-    int n10 = 0; // Nombre de zero de droite a gauche pour n1
-    int n20 = 0; // Nombre de zero de droite a gauche pour n2
-    bool iseq = false; // Initialisation de la variable d'égalité
-
-    for (int i = 0; i < MAXCHIFFRES; i++){ // Comptage des zeros
-        if (n1.chiffres[i] == 0){
-            n10++;
+bool compvalabs(t_EntierLong n1, t_EntierLong n2) {
+    // On parcourt les chiffres du plus significatif au moins significatif
+    for (int i = 0; i < MAXCHIFFRES; i++) {
+        // Si le chiffre de n1 est plus petit, alors |n1| < |n2| est vrai
+        if (n1.chiffres[MAXCHIFFRES - i - 1]< n2.chiffres[MAXCHIFFRES - i - 1]) {
+            return true;
         }
-        if (n2.chiffres[i] == 0){
-            n20++;
+        // Si le chiffre de n1 est plus grand, alors |n1| > |n2| est vrai.
+        if (n1.chiffres[MAXCHIFFRES - i - 1]> n2.chiffres[MAXCHIFFRES - i - 1]) {
+            return false;
         }
     }
-
-    if (n10 == n20){ // On etudie le cas ou il y a le même nombre de zero
-        for (int i = 0; i<MAXCHIFFRES; i++){  // On etudie le sous cas où |n1|=|n2|
-            if (n1.chiffres[i] == n2.chiffres[i]){
-                iseq = true;
-            }
-        }
-        if (iseq == false){
-            for (int i = 0; i<MAXCHIFFRES; i++){
-            // On regarde ensuite si n1 < n2 terme a terme
-            if (n1.chiffres[i] <= n2.chiffres[i]){
-                comp = true;
-            }
-            else {
-                comp = false;
-            }  
-        }
-            return comp;
-        }
-        else {
-            return iseq; // Renvoie vrai si n1=n2
-        }
-    } // On regarde les cas plus simple 
-    else    {
-            if (n10 < n20){
-                return false;
-            }
-            if (n10 > n20){
-                return true;
-            }
-    }
-    return 0;
+    // Si on sort de la boucle, cela signifie que tous les chiffres étaient égaux
+    return true;
 }
